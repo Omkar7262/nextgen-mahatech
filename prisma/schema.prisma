@@ -1,0 +1,92 @@
+// NextGen Mahatech — Prisma schema
+//
+// Database: PostgreSQL
+// Client:   @prisma/client
+//
+// To migrate against your database:
+//   1. Set DATABASE_URL in a `.env` file
+//      DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/nextgen_mahatech?schema=public"
+//   2. Run `npx prisma migrate dev --name init`
+//   3. Run `npx prisma generate`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enquiries — submitted via the contact form
+// ---------------------------------------------------------------------------
+model Enquiry {
+  id         String   @id @default(cuid())
+  fullName   String   @map("full_name")
+  company    String?
+  email      String
+  phone      String?
+  service    String?
+  message    String?
+  status     String   @default("NEW") // NEW | CONTACTED | CLOSED
+  source     String   @default("WEBSITE")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@map("enquiries")
+}
+
+// ---------------------------------------------------------------------------
+// Services — rendered on the site
+// ---------------------------------------------------------------------------
+model Service {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  tagline     String?
+  description String
+  icon        String?
+  active      Boolean  @default(true)
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([active, sortOrder])
+  @@map("services")
+}
+
+// ---------------------------------------------------------------------------
+// Testimonials — client stories
+// ---------------------------------------------------------------------------
+model Testimonial {
+  id      String   @id @default(cuid())
+  client  String
+  role    String?
+  quote   String
+  rating  Int      @default(5)
+  active  Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([active])
+  @@map("testimonials")
+}
+
+// ---------------------------------------------------------------------------
+// Blog / Insights — optional content posts
+// ---------------------------------------------------------------------------
+model Post {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  title     String
+  excerpt   String?
+  content   String
+  published Boolean   @default(false)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@index([published, createdAt])
+  @@map("posts")
+}
