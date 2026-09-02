@@ -1,144 +1,88 @@
-# NextGen MahaTech
+# NextGen MahaTech — Advanced Association Management & IT Services
 
-> **Innovate • Build • Elevate**
-> Smart Technology. Reliable Solutions. Business Growth.
+NextGen MahaTech is a modern, full-stack web application designed for association management and IT service delivery. It features a high-performance frontend with interactive 3D elements and a robust, secure Admin Panel for real-time content management.
 
-Corporate website and **Association Management Solution (AMS)** product site for
-NextGen MahaTech, Nashik.
+## 🚀 Key Features
 
-**Next.js 15 (App Router)** · **TypeScript** · **Tailwind CSS v4** ·
-**Prisma** · **PostgreSQL** · **Three.js** · **Motion**
+### Public Website
+- **Modern UI/UX**: Built with Tailwind CSS and Framer Motion for smooth animations.
+- **Dynamic Content**: Hero sections, About text, and Services are all fetched from a PostgreSQL database.
+- **Interactive Elements**: Includes a 3D hologram hero visual and tilt-animated cards.
+- **Lead Generation**: Integrated contact form that stores enquiries directly in the database.
 
----
+### Admin Panel (`/admin`)
+- **Secure Authentication**: JWT-based session management with HTTP-only cookies.
+- **Dashboard**: Real-time stats for enquiries, services, and testimonials.
+- **Service Management**: Full CRUD (Create, Read, Update, Delete) for company offerings.
+- **Testimonial Management**: Manage client feedback with star ratings and photos.
+- **Page Content Manager**: Edit website text (titles, descriptions) without touching the code.
+- **Local Image Uploads**: Upload images directly from your computer to the server.
 
-## ⚠️ One required change before running
+## 🛠 Tech Stack
 
-This project was scaffolded in an environment that pinned the npm scripts to
-Vite. All Vite files have been deleted, but `package.json` could not be edited
-from inside that sandbox. **Replace the `scripts` block** with:
+- **Frontend**: Next.js 15 (App Router), React 19, Tailwind CSS
+- **Animations**: Framer Motion, Three.js (WebGL)
+- **Backend**: Next.js Route Handlers (API)
+- **Database**: PostgreSQL
+- **ORM**: Prisma Client
+- **Auth**: Jose (JWT), Bcryptjs
 
-```json
-{
-  "name": "nextgen-mahatech",
-  "private": true,
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "postinstall": "prisma generate"
-  }
-}
-```
+## 💻 Local Setup Instructions
 
-Then remove the leftover Vite packages:
+### 1. Prerequisites
+- **Node.js** (v18+)
+- **PostgreSQL** (Running locally or hosted)
 
+### 2. Installation
 ```bash
-npm uninstall vite @vitejs/plugin-react vite-plugin-singlefile @tailwindcss/vite
-```
+# Clone the repository
+git clone https://github.com/okardile140/nextgen-mahatech.git
+cd nextgen-mahatech
 
-Nothing in `app/`, `components/`, `lib/` or `prisma/` needs to change.
-
----
-
-## Project structure
-
-```
-app/                          App Router — routes, layouts, API
-├─ layout.tsx                 Root layout (Navbar + Footer + metadata + font)
-├─ globals.css                Tailwind v4 entry, tokens, keyframes
-├─ page.tsx                   /                  Home
-├─ not-found.tsx              404 boundary
-├─ error.tsx                  Error boundary
-├─ about/page.tsx             /about
-├─ services/page.tsx          /services
-├─ industries/page.tsx        /industries
-├─ solutions/ams/page.tsx     /solutions/ams     Association Management Solution
-└─ api/                       Route Handlers
-   ├─ enquiries/route.ts         GET · POST
-   ├─ enquiries/[id]/route.ts    GET · PATCH · DELETE
-   ├─ services/route.ts          GET
-   └─ testimonials/route.ts      GET
-
-components/                   Server by default; interactive ones use "use client"
-├─ Navbar · Footer · Hero · Hero3DCanvas · About · Services · Process
-├─ Industries · Testimonials · CTA · Contact · TrustBar · PageBanner
-├─ AMSHighlight · VisionMission
-├─ about/       Story · Values · Team · Timeline
-├─ services/    Grid · Process · Stack
-├─ industries/  Grid · Why
-├─ ams/         Hero · Metrics · Challenges · Benefits · Features · Why
-│               Slogan · DashboardMockup
-└─ ui/          AppLink
-
-lib/
-├─ prisma.ts                  PrismaClient singleton
-├─ anim.tsx                   3D primitives — Reveal3D · Tilt · Flip3D
-├─ types.ts · ams-data.tsx · services-data.tsx · seed-data.ts
-
-prisma/schema.prisma          PostgreSQL schema
-next.config.mjs               Next.js config
-postcss.config.mjs            Tailwind v4 via PostCSS
-```
-
-No `src/`, no Vite, no React-Vite scaffolding.
-
----
-
-## Getting started
-
-```bash
+# Install dependencies
 npm install
-
-cp .env.example .env
-# DATABASE_URL="postgresql://user:password@localhost:5432/nextgen_mahatech"
-
-npx prisma generate
-npx prisma migrate dev --name init
-
-npm run dev          # http://localhost:3000
 ```
 
-### Production
+### 3. Database Configuration
+Create a `.env` file in the root directory:
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/your_database_name"
+JWT_SECRET="your_random_secret_string"
+```
 
+### 4. Database Initialization
 ```bash
+# Push the schema to your PostgreSQL database
+npx prisma db push
+
+# Seed initial data (Admin user, services, etc.)
+npx tsx src/db/seed.ts
+
+# Optional: Force reset admin credentials if login fails
+npx tsx src/db/reset-admin.ts
+```
+
+### 5. Running the App
+```bash
+# Development mode
+npm run dev
+
+# Production build
 npm run build
 npm run start
 ```
 
----
+## 🔐 Admin Credentials (Default)
+- **URL**: `http://localhost:3000/admin/login`
+- **Username**: `admin`
+- **Password**: `admin123`
 
-## Styling
+## 📂 Project Structure
+- `src/app`: Next.js pages and API routes.
+- `src/components`: Reusable UI components (Public & Admin).
+- `src/lib`: Shared utilities (Auth, Prisma client, Types).
+- `prisma/`: Database schema definition.
+- `public/uploads`: Directory where admin-uploaded images are stored.
 
-Tailwind CSS v4 is wired through `postcss.config.mjs`, which Next.js reads
-automatically:
-
-```js
-export default { plugins: { "@tailwindcss/postcss": {} } };
-```
-
----
-
-## API reference
-
-| Method   | Endpoint              | Description                    |
-| -------- | --------------------- | ------------------------------ |
-| `GET`    | `/api/enquiries`      | List enquiries (newest first)  |
-| `POST`   | `/api/enquiries`      | Create enquiry from contact form |
-| `GET`    | `/api/enquiries/[id]` | Fetch one enquiry              |
-| `PATCH`  | `/api/enquiries/[id]` | Update enquiry status          |
-| `DELETE` | `/api/enquiries/[id]` | Delete enquiry                 |
-| `GET`    | `/api/services`       | Service catalogue              |
-| `GET`    | `/api/testimonials`   | Published testimonials         |
-
----
-
-## Contact
-
-**NextGen MahaTech**
-Shree Ganesh Park, Near Patil Park, Jadhav Township,
-Ambad Link Road, Nashik – 422010, Maharashtra, India
-
-📞 9579495373 · ✉️ nextgenmahatech@gmail.com · 🌐 www.nextgenmahatech.com
-s
+## 📄 License
+This project is private and intended for NextGen MahaTech operations.
