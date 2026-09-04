@@ -61,6 +61,7 @@ export default function AboutTeam() {
                       src={member.image}
                       alt={member.name}
                       fill
+                      sizes="280px"
                       className="object-cover object-top rounded-[1.9rem]"
                     />
                   ) : (
