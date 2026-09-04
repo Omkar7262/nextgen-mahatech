@@ -164,7 +164,7 @@ export default function IndustriesGrid() {
                                         <p className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400 mb-6">{item.category}</p>
                                         <h3 className={`text-3xl font-black mb-6 ${idx % 2 === 0 ? 'text-white' : 'text-slate-900'}`}>{item.client}</h3>
                                         <div className="h-1 w-12 bg-indigo-600 rounded-full mb-8" />
-                                        <h4 className={`text-xl font-bold mb-6 ${idx % 2 === 0 ? 'text-indigo-100' : 'text-indigo-600'}`}>{item.title}</h4>
+                                        <h4 className={`mb-6 line-clamp-2 text-xl font-bold ${idx % 2 === 0 ? 'text-indigo-100' : 'text-indigo-600'}`}>{item.title}</h4>
                                         <p className={`leading-relaxed mb-8 ${idx % 2 === 0 ? 'text-slate-300' : 'text-slate-600'} line-clamp-3`}>{item.description}</p>
                                         <div className={`prose prose-sm max-w-none max-h-[300px] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-indigo-500/20 ${idx % 2 === 0 ? 'prose-invert text-slate-400' : 'text-slate-500'}`} dangerouslySetInnerHTML={{ __html: item.content }} />
                                     </div>

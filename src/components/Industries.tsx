@@ -74,16 +74,16 @@ export default function Industries() {
 
                   <div className="mt-12 h-1.5 w-12 rounded-full bg-gradient-to-r from-indigo-400 to-cyan-400" />
 
-                  <p className="mt-10 text-lg leading-relaxed text-indigo-100/80">
+                  <p className="mt-10 line-clamp-2 text-lg leading-relaxed text-indigo-100/80">
                     {item.title}
                   </p>
                 </div>
               </div>
 
               <div className="p-10 md:p-14 lg:p-16 bg-gradient-to-br from-white to-slate-50">
-                <h3 className="text-3xl font-black text-slate-900 lg:text-4xl leading-tight">
+                <p className="line-clamp-4 text-lg leading-relaxed text-slate-600 lg:text-xl">
                   {item.description}
-                </h3>
+                </p>
 
                 <div className="mt-10 prose prose-slate max-w-none text-slate-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: item.content || "" }} />
               </div>
